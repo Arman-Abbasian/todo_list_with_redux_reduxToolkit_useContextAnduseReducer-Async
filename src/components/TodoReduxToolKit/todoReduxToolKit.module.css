@@ -1,0 +1,20 @@
+.container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: #2ab7ca;
+    border: 2px solid #fed766;
+    border-radius: 0.3rem;
+}
+.internalContainer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+.button{
+    padding: 0.5rem;
+    background-color: #fe4a49;
+    border-radius: 0.3rem;
+}
