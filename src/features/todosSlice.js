@@ -1,11 +1,47 @@
-import { createSlice,current } from '@reduxjs/toolkit'
+import { createSlice,current,createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
+
+
+export const getAsyncTodos=createAsyncThunk("todos/getAsyncTodos", async (_,{rejectWithValue})=>{
+  try {
+    const response=await axios.get(`http://localhost:4000/todos`);
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    return rejectWithValue([],error)
+  }
+});
+export const addAsyncTodos=createAsyncThunk("todos/addAsyncTodos", async (payload,{rejectWithValue})=>{
+  try {
+    const response=await axios.post(`http://localhost:4000/todos`,payload);
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    return rejectWithValue([],error)
+  }
+});
+export const removeAsyncTodos=createAsyncThunk("todos/removeAsyncTodos", async (payload,{rejectWithValue})=>{
+  try {
+    await axios.delete(`http://localhost:4000/todos/${payload}`);
+    return payload;
+  } catch (error) {
+    return rejectWithValue([],error)
+  }
+});
+export const changeCompletedConditionAsync=createAsyncThunk("todos/changeCompletedCondition", async (payload,{rejectWithValue})=>{
+  try {
+    const response=await axios.put(`http://localhost:4000/todos/${payload.id}`,payload);
+    console.log(response.data)
+    return response.data;
+  } catch (error) {
+    return rejectWithValue([],error)
+  }
+});
 
 const initialState = {
-  todos:[
-    {id:1,title:"work1",completed:false},
-    {id:2,title:"work2",completed:false},
-    {id:3,title:"work3",completed:false},
-  ]
+  todos:[],
+  error:null,
+  loading:false
 }
 
 export const todoSlice = createSlice({
@@ -24,6 +60,32 @@ export const todoSlice = createSlice({
         state.todos=filterItems;
   }
   },
+  extraReducers:{
+  
+    [getAsyncTodos.fulfilled]: (state,action) => {
+      return {...state,todos:action.payload,loading:false,error:null}
+    },
+    [getAsyncTodos.pending]: (state,action) => {
+      return {...state,todos:[],loading:true,error:null}
+    },
+    [getAsyncTodos.rejected]: (state,action) => {
+      return {...state,todos:[],loading:false,error:action.payload}
+    },
+
+    [changeCompletedConditionAsync.fulfilled]: (state,action) => {
+      const selectedTodo=state.todos.find(item=>item.id===action.payload.id);
+      selectedTodo.completed=action.payload.completed;
+    },
+    [addAsyncTodos.fulfilled]: (state,action) => {
+      state.todos.push(action.payload)
+    },
+
+    [removeAsyncTodos.fulfilled]: (state,action) => {
+      const remainedTodos=state.todos.filter(item=>item.id !== action.payload);
+      return {...state,todos:remainedTodos,loading:false,error:null}
+      
+    },
+  }
 })
 
 // Action creators are generated for each case reducer function
