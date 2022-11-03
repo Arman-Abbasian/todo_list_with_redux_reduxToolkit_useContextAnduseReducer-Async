@@ -20,28 +20,35 @@ const todoReducer=(state=initialState,action)=>{
         case CHANGE_COMPLETED_CONDITION:{
             axios.put(`http://localhost:4000/todos/${action.payload.id}`,action.payload)
             .then(res=>{
-                const index=state.todos.findIndex(item=>item.id===action.payload.id);
-                const cloneObject={...state.todos[index]};
-                cloneObject.checked=action.payload.checked;
-                console.log(action.payload)
+                console.log(res.data)
+                console.log(action.payload.checked)
+                // const index=state.todos.findIndex(item=>item.id===action.payload.id);
+                // const cloneObject={...state.todos[index]};
+                // cloneObject.checked=action.payload.checked;
+                // const cloneArray=[...state.todos];
+                // cloneArray[index]=cloneObject;
+                // console.log(state);
+                // const newArray={...state,todos:cloneArray}
+                // return newArray;
+                return state;
             })
             .catch(err=>{
-                console.log(err.message)
+                console.log(err.message);
+                return state;
             })
-            // const filteredTodosIndex=state.todos.findIndex(item=>item.id===action.payload.id);
-            // const cloneObject={...state.todos[filteredTodosIndex]};
-            // cloneObject.completed=action.payload.checked
-            // const cloneArray=[...state.todos];
-            // cloneArray[filteredTodosIndex]=cloneObject;
-            // const newState={...state,todos:cloneArray}
-             return state;
         };
         case ADD_ONE_TODO:{
-            const cloneArray=[...state.todos];
-            cloneArray.push(action.payload);
-            console.log(action.payload)
-            const newState={...state,todos:cloneArray}
-             return newState
+            axios.post(`http://localhost:4000/todos`,action.payload)
+            .then(res=>{
+                const cloneArray=[...state.todos];
+                state.todos.push(action.payload);
+                console.log(action.payload)
+                const newState={...state,todos:state.todos};
+                console.log(newState)
+                 return {...state,todos:cloneArray,error:"",laoding:false}
+            })
+            .catch(err=>err.message)
+           return state
         };
 
         case REMOVE_ONE_TODO:{
@@ -53,5 +60,6 @@ const todoReducer=(state=initialState,action)=>{
         default:
             return state;
     }
+    
 }
 export default todoReducer;
