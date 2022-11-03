@@ -5,7 +5,6 @@ import axios from 'axios';
 export const getAsyncTodos=createAsyncThunk("todos/getAsyncTodos", async (_,{rejectWithValue})=>{
   try {
     const response=await axios.get(`http://localhost:4000/todos`);
-    console.log(response);
     return response.data;
   } catch (error) {
     return rejectWithValue([],error)
@@ -14,7 +13,6 @@ export const getAsyncTodos=createAsyncThunk("todos/getAsyncTodos", async (_,{rej
 export const addAsyncTodos=createAsyncThunk("todos/addAsyncTodos", async (payload,{rejectWithValue})=>{
   try {
     const response=await axios.post(`http://localhost:4000/todos`,payload);
-    console.log(response.data);
     return response.data;
   } catch (error) {
     return rejectWithValue([],error)
@@ -31,7 +29,6 @@ export const removeAsyncTodos=createAsyncThunk("todos/removeAsyncTodos", async (
 export const changeCompletedConditionAsync=createAsyncThunk("todos/changeCompletedCondition", async (payload,{rejectWithValue})=>{
   try {
     const response=await axios.put(`http://localhost:4000/todos/${payload.id}`,payload);
-    console.log(response.data)
     return response.data;
   } catch (error) {
     return rejectWithValue([],error)
@@ -47,19 +44,20 @@ const initialState = {
 export const todoSlice = createSlice({
   name: 'todos',
   initialState,
-  reducers: {
-    addOneTodo: (state,action) => {
-      state.todos.push(action.payload)
-    },
-    changeCompletedCondition:(state,action)=>{
-       const findedItem= state.todos.find(item=>item.id===action.payload.id);
-       findedItem.completed=action.payload.checked;
-    },
-    removeOneTodo:(state,action)=>{
-        const filterItems=state.todos.filter(item=>item.id!==action.payload);
-        state.todos=filterItems;
-  }
-  },
+  // reducers: {
+  //   addOneTodo: (state,action) => {
+  //     state.todos.push(action.payload)
+  //   },
+  //   changeCompletedCondition:(state,action)=>{
+  //      const findedItem= state.todos.find(item=>item.id===action.payload.id);
+  //      findedItem.completed=action.payload.checked;
+  //   },
+  //   removeOneTodo:(state,action)=>{
+  //       const filterItems=state.todos.filter(item=>item.id!==action.payload);
+  //       state.todos=filterItems;
+  // }
+  // },
+  
   extraReducers:{
   
     [getAsyncTodos.fulfilled]: (state,action) => {
