@@ -3,17 +3,17 @@
     {
       "id": 1667455831205,
       "title": "work 1",
-      "completed": true
+      "checked": true
     },
     {
       "id": 1667455836029,
       "title": "work 2",
-      "completed": false
+      "checked": true
     },
     {
       "id": 1667455839805,
       "title": "work 3",
-      "completed": false
+      "checked": true
     }
   ]
 }
