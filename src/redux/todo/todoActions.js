@@ -25,7 +25,8 @@ export const fetchTodos=()=>{
         dispatch(fetchTodosRequest());
         axios.get(`http://localhost:4000/todos`)
         .then(res=>{
-            dispatch(fetchTodosSuccess(res.data))
+            dispatch(fetchTodosSuccess(res.data));
+            console.log(res.data)
         })
         .catch(err=>{
             dispatch(fetchTodosFailure(err.message))

@@ -4,7 +4,7 @@ const TodoTotalRedux = () => {
     const todos=useSelector(state=>state.todos.todos);
     console.log(todos);
     const count=()=>{
-      const filteredItems= todos.filter(item=>item.completed===true);
+      const filteredItems= todos.filter(item=>item.checked===true);
       return filteredItems.length
     }
     return ( 

@@ -21,15 +21,7 @@ const todoReducer=(state=initialState,action)=>{
             axios.put(`http://localhost:4000/todos/${action.payload.id}`,action.payload)
             .then(res=>{
                 console.log(res.data)
-                console.log(action.payload.checked)
-                const index=state.todos.findIndex(item=>item.id===action.payload.id);
-                const cloneObject={...state.todos[index]};
-                cloneObject.checked=action.payload.checked;
-                const cloneArray=[...state.todos];
-                cloneArray[index]=cloneObject;
-                console.log(state);
-                const newArray={...state,todos:cloneArray}
-                return newArray;
+                return state;
             })
             .catch(err=>{
                 console.log(err.message);
@@ -39,24 +31,17 @@ const todoReducer=(state=initialState,action)=>{
         case ADD_ONE_TODO:{
             axios.post(`http://localhost:4000/todos`,action.payload)
             .then(res=>{
-                const cloneArray=[...state.todos];
-                state.todos.push(action.payload);
-                console.log(action.payload)
-                const newState={...state,todos:state.todos};
-                console.log(newState)
-                 return {...state,todos:cloneArray,error:"",laoding:false}
+                console.log(state)
+                return state;
             })
-            .catch(err=>err.message)
+            .catch(err=>console.log(err.message))
            return state
         };
 
         case REMOVE_ONE_TODO:{
             axios.delete(`http://localhost:4000/todos/${action.payload}`)
             .then(res=>{
-                const remainedItems=state.todos.filter(item=>item.id!==action.payload);
-                const newState={...state,todos:remainedItems,error:"",laoding:false};
-                console.log(newState)
-                return newState;
+                return state;
             })
             .catch(err=>console.log(err));
             return state;
