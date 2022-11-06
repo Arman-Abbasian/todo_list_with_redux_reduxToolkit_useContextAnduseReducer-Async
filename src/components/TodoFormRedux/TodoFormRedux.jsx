@@ -1,6 +1,6 @@
 import { useState } from "react";
 import {useSelector,useDispatch} from 'react-redux'
-import { addOneTodo } from "../../redux/todo/todoActions";
+import { addOneTodo, fetchTodos } from "../../redux/todo/todoActions";
 import styles from './todoFormRedux.module.css';
 
 const TodoFormRedux = () => {
@@ -14,7 +14,8 @@ const TodoFormRedux = () => {
     const addTodoHandler=()=>{
      const todo= {id:Date.now(),title:inputVal,completed:false};
      setInputVal("")
-     dispatch(addOneTodo(todo))
+     dispatch(addOneTodo(todo));
+     dispatch(fetchTodos())
      
     }
     return ( 

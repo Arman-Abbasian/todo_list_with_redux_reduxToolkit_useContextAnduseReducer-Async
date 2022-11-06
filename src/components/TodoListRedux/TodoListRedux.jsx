@@ -9,7 +9,15 @@ const TodoListRedux = () => {
     const dispatch=useDispatch();
     useEffect(()=>{
         dispatch(fetchTodos());
-    },[])
+    },[]);
+    const removeTodo=(id)=>{
+        dispatch(removeOneTodo(id));
+        dispatch(fetchTodos())
+    }
+    const completeChangeItem=(data)=>{
+        dispatch(changeCompletedCondition(data));
+        dispatch(fetchTodos())
+    }
 console.log(todos);
 if(todos.loading) return <p>loading...</p>
 if(todos.error!=='') return <p>{todos.error}</p>
@@ -18,8 +26,8 @@ console.log(todos.todos)
         <div className={styles.container}>
             {todos.todos.map(item=>{
                 return <TodoRedux key={item.id} title={item.title} checkboxx={item.checked}
-                onChangedCheck={()=>dispatch(changeCompletedCondition({id:item.id,title:item.title,checked:!item.checked}))} 
-                removeHandler={()=>dispatch(removeOneTodo(item.id))} />
+                onChangedCheck={()=>completeChangeItem({id:item.id,title:item.title,checked:!item.checked})} 
+                removeHandler={()=>removeTodo(item.id)} />
             })}
         </div>
      );

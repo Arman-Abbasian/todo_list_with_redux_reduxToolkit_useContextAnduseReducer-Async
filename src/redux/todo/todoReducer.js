@@ -22,15 +22,14 @@ const todoReducer=(state=initialState,action)=>{
             .then(res=>{
                 console.log(res.data)
                 console.log(action.payload.checked)
-                // const index=state.todos.findIndex(item=>item.id===action.payload.id);
-                // const cloneObject={...state.todos[index]};
-                // cloneObject.checked=action.payload.checked;
-                // const cloneArray=[...state.todos];
-                // cloneArray[index]=cloneObject;
-                // console.log(state);
-                // const newArray={...state,todos:cloneArray}
-                // return newArray;
-                return state;
+                const index=state.todos.findIndex(item=>item.id===action.payload.id);
+                const cloneObject={...state.todos[index]};
+                cloneObject.checked=action.payload.checked;
+                const cloneArray=[...state.todos];
+                cloneArray[index]=cloneObject;
+                console.log(state);
+                const newArray={...state,todos:cloneArray}
+                return newArray;
             })
             .catch(err=>{
                 console.log(err.message);
@@ -52,9 +51,16 @@ const todoReducer=(state=initialState,action)=>{
         };
 
         case REMOVE_ONE_TODO:{
-            const remainedItems=state.todos.filter(item=>item.id!==action.payload);
-            const newState={...state,todos:remainedItems}
-             return newState;
+            axios.delete(`http://localhost:4000/todos/${action.payload}`)
+            .then(res=>{
+                const remainedItems=state.todos.filter(item=>item.id!==action.payload);
+                const newState={...state,todos:remainedItems,error:"",laoding:false};
+                console.log(newState)
+                return newState;
+            })
+            .catch(err=>console.log(err));
+            return state;
+            
         }
             
         default:
