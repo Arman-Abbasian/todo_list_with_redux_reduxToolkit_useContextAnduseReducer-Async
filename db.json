@@ -1,32 +1,7 @@
 {
   "todos": [
     {
-      "id": 1667455831205,
-      "title": "work 1",
-      "checked": true
-    },
-    {
-      "id": 1667455836029,
-      "title": "work 2",
-      "checked": true
-    },
-    {
-      "id": 1667455839805,
-      "title": "work 3",
-      "checked": false
-    },
-    {
-      "id": 1667464271888,
-      "title": "1",
-      "completed": false
-    },
-    {
-      "id": 1667464371224,
-      "title": "2",
-      "checked": false
-    },
-    {
-      "id": 1667800819331,
+      "id": 1667804636548,
       "title": "d",
       "completed": false
     }

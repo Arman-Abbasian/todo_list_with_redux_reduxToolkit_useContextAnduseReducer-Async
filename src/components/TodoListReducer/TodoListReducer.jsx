@@ -1,7 +1,9 @@
+import axios from 'axios';
 import { useEffect } from 'react';
 import { useTodoActions, useTodos } from '../Providers/todosProvider';
 import TodoReducer from '../TodoReducer/TodoReducer';
 import styles from './todoListReducer.module.css';
+
 
 
 const TodoListReducer = () => {
@@ -9,9 +11,14 @@ const TodoListReducer = () => {
     const dispatch=useTodoActions();
 
     useEffect(()=>{
-        dispatch({type:"getTodos"});
-    },[])
+        dispatch({type:"loading"});
+        axios.get(`http://localhost:4000/todos`)
+        .then(res=>dispatch({type:"success",payload:res.data}))
+        .catch(err=>dispatch({type:"success",payload:err.message}))
+    },[]);
 
+    if(todos.loading===true) return <p>loading</p>
+    if(todos.error===false) return <p>{todos.error}</p>
     return ( 
         <div className={styles.container}>
             {todos.todos.map(item=>{

@@ -6,25 +6,22 @@ const TodoContextDispatcher=createContext();
 
 const initialState={
     todos:[],
-    loading:false,
+    loading:true,
     error:""
 }
 
-const reducer=(state,action)=>{
+const reducer=(state=initialState,action)=>{
+
     switch (action.type) {
-        case "getTodos":{
-            state.loading=true;
-            console.log(state)
-            axios.get(`http://localhost:4000/todos`)
-            .then(res=>{
-                console.log(res.data)
-                state= {...state,todos:res.data,loading:false,error:""}
-            } )
-            .catch(err=>{
-                state= {...state,todos:[],loading:false,error:err.message}
-            });
-            return state;
+        case "loading":{
+              return  {...state,todos:[],loading:true,error:""};    
         };
+        case "success":{
+            return  {...state,todos:action.payload,loading:false,error:""};    
+      };
+      case "error":{
+        return  {...state,todos:[],loading:false,error:action.payload};    
+  };
         case "changeCompletedCondition":{
             console.log(action.payload)
             const findedIndex=state.todos.findIndex(item=>item.id===action.payload.id);
@@ -37,8 +34,8 @@ const reducer=(state,action)=>{
         };
         case "addOneTodo":{
             axios.post(`http://localhost:4000/todos`,action.payload)
-            .then(res=>console.log(res.data))
-            .catch(err=>console.log(err.message))
+            .then(res=> state)
+            .catch(err=>state)
             return state;
         };
         case "removeOneTodo":{
