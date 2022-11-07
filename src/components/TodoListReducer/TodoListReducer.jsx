@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useTodoActions, useTodos } from '../Providers/todosProvider';
 import TodoReducer from '../TodoReducer/TodoReducer';
 import styles from './todoListReducer.module.css';
@@ -6,6 +7,10 @@ import styles from './todoListReducer.module.css';
 const TodoListReducer = () => {
     const todos=useTodos();
     const dispatch=useTodoActions();
+
+    useEffect(()=>{
+        dispatch({type:"getTodos"});
+    },[])
 
     return ( 
         <div className={styles.container}>

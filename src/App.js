@@ -24,13 +24,13 @@ import TodoFormReducer from "./components/TodoFormReducer/TodoFormReducer";
 
 function App() {
   return(
-    <Provider store={store}>
-      <div className="flex justify-between items-center">
-      <TodoFormRedux />
-      <TodoTotalRedux />
-      </div>
-      <TodoListRedux />
-    </Provider>
+    // <Provider store={store}>
+    //   <div className="flex justify-between items-center">
+    //   <TodoFormRedux />
+    //   <TodoTotalRedux />
+    //   </div>
+    //   <TodoListRedux />
+    // </Provider>
 
     // <Provider store={store}>
     //   <div className="flex justify-between items-center">
@@ -40,13 +40,13 @@ function App() {
     //   <TodoListReduxToolKit />
     // </Provider>
 
-    // <TodosProvider>
-    //   <div className="flex justify-between items-center">
-    //    <TodoFormReducer />
-    //    <TodoTotalReducer />
-    //   </div>
-    //   <TodoListReducer />
-    // </TodosProvider>
+    <TodosProvider>
+      <div className="flex justify-between items-center">
+       <TodoFormReducer />
+       <TodoTotalReducer />
+      </div>
+      <TodoListReducer />
+    </TodosProvider>
   )
 }
 

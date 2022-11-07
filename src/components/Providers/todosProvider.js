@@ -1,18 +1,30 @@
+import axios from "axios";
 import { createContext, useContext, useReducer } from "react";
 
 const TodoContext=createContext();
 const TodoContextDispatcher=createContext();
 
 const initialState={
-    todos:[
-        {id:1,title:"work1",completed:false},
-        {id:2,title:"work2",completed:false},
-        {id:3,title:"work3",completed:false},
-    ]
+    todos:[],
+    loading:false,
+    error:""
 }
 
 const reducer=(state,action)=>{
     switch (action.type) {
+        case "getTodos":{
+            state.loading=true;
+            console.log(state)
+            axios.get(`http://localhost:4000/todos`)
+            .then(res=>{
+                console.log(res.data)
+                state= {...state,todos:res.data,loading:false,error:""}
+            } )
+            .catch(err=>{
+                state= {...state,todos:[],loading:false,error:err.message}
+            });
+            return state;
+        };
         case "changeCompletedCondition":{
             console.log(action.payload)
             const findedIndex=state.todos.findIndex(item=>item.id===action.payload.id);
@@ -24,16 +36,16 @@ const reducer=(state,action)=>{
             return newState;
         };
         case "addOneTodo":{
-            const cloneArray=[...state.todos];
-            cloneArray.push(action.payload);
-            const newState={...state,todos:cloneArray}
-            return newState;
+            axios.post(`http://localhost:4000/todos`,action.payload)
+            .then(res=>console.log(res.data))
+            .catch(err=>console.log(err.message))
+            return state;
         };
         case "removeOneTodo":{
-            console.log(action.payload)
-            const remainedTodos=state.todos.filter(item=>item.id!==action.payload);
-            const newState={...state,todos:remainedTodos}
-            return newState;
+            axios.delete(`http://localhost:4000/todos/${action.payload}`)
+            .then(res=>console.log(res.data))
+            .catch(err=>console.log(err.message))
+            return state;
         };     
         default:
             return state;

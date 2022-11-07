@@ -6,6 +6,7 @@ const TodoFormReducer = () => {
     const [inputVal,setInputVal]=useState("");
     const todos=useTodos();
     const dispatch=useTodoActions();
+    console.log(todos)
 
     const changeHandler=(e)=>{
         setInputVal(e.target.value)
