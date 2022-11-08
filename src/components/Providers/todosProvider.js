@@ -34,15 +34,20 @@ const reducer=(state=initialState,action)=>{
         };
         case "addOneTodo":{
             axios.post(`http://localhost:4000/todos`,action.payload)
-            .then(res=> state)
-            .catch(err=>state)
-            return state;
+            .then(res=>{
+                console.log(state);
+                console.log(res.data)
+                return state;
+            })
+            .catch(err=>console.log(err));
+           return state
         };
         case "removeOneTodo":{
             axios.delete(`http://localhost:4000/todos/${action.payload}`)
             .then(res=>console.log(res.data))
-            .catch(err=>console.log(err.message))
-            return state;
+            .catch(err=>console.log(err.message));
+            console.log(state)
+            return  {...state,todos:state.todos,loading:false,error:""};
         };     
         default:
             return state;
