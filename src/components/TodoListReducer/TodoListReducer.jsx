@@ -10,6 +10,13 @@ const TodoListReducer = () => {
     const todos=useTodos();
     const dispatch=useTodoActions();
 
+    function reload(){
+        dispatch({type:"loading"});
+        axios.get(`http://localhost:4000/todos`)
+        .then(res=>dispatch({type:"success",payload:res.data}))
+        .catch(err=>dispatch({type:"error",payload:err.message}))
+    }
+
     useEffect(()=>{
         dispatch({type:"loading"});
         axios.get(`http://localhost:4000/todos`)
@@ -18,12 +25,9 @@ const TodoListReducer = () => {
     },[]);
 
     const removeOneTodo=(id)=>{
-        dispatch({type:"removeOneTodo",payload:id});
-        dispatch({type:"loading"});
-        axios.get(`http://localhost:4000/todos`)
-        .then(res=>dispatch({type:"success",payload:res.data}))
-        .catch(err=>dispatch({type:"error",payload:err.message}))
-
+        axios.delete(`http://localhost:4000/todos/${id}`)
+        .then(res=>reload())
+        .catch(err=>console.log(err.message))
     }
 
     if(todos.loading===true) return <p>loading</p>

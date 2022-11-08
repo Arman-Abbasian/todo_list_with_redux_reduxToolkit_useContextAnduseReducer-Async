@@ -14,13 +14,16 @@ const reducer=(state=initialState,action)=>{
 
     switch (action.type) {
         case "loading":{
+            console.log(state)
               return  {...state,todos:[],loading:true,error:""};    
         };
         case "success":{
+            console.log(state)
             return  {...state,todos:action.payload,loading:false,error:""};    
       };
-      case "error":{
-        return  {...state,todos:[],loading:false,error:action.payload};    
+        case "error":{
+            console.log(state)
+            return  {...state,todos:[],loading:false,error:action.payload};    
   };
         case "changeCompletedCondition":{
             console.log(action.payload)
@@ -35,9 +38,9 @@ const reducer=(state=initialState,action)=>{
         case "addOneTodo":{
             axios.post(`http://localhost:4000/todos`,action.payload)
             .then(res=>{
-                console.log(state);
-                console.log(res.data)
-                return state;
+                state.todos.push(res.data);
+                console.log(state.todos)
+                return {...state,todos:state.todos,loading:false,error:""}  
             })
             .catch(err=>console.log(err));
            return state
