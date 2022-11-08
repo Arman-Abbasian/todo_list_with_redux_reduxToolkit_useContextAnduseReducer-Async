@@ -26,14 +26,10 @@ const reducer=(state=initialState,action)=>{
             return  {...state,todos:[],loading:false,error:action.payload};    
   };
         case "changeCompletedCondition":{
-            console.log(action.payload)
-            const findedIndex=state.todos.findIndex(item=>item.id===action.payload.id);
-            const cloneObject={...state.todos[findedIndex]};
-            cloneObject.completed=action.payload.checked
-            const cloneArray=[...state.todos];
-            cloneArray[findedIndex]=cloneObject;
-            const newState={...state,todos:cloneArray}
-            return newState;
+            axios.put(`http://localhost:4000/todos/${action.payload.id}`,action.payload)
+            .then(res=>console.log(res.data))
+            .catch(err=>console.log(err.message));
+            return  state;
         };
         case "addOneTodo":{
             axios.post(`http://localhost:4000/todos`,action.payload)

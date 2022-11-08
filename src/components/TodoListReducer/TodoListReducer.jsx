@@ -29,14 +29,19 @@ const TodoListReducer = () => {
         .then(res=>reload())
         .catch(err=>console.log(err.message))
     }
-
+    const todoCompleteCondition=(id,title,checked)=>{
+        //dispatch({type:"changeCompletedCondition",payload:{id,title,checked}});
+        axios.put(`http://localhost:4000/todos/${id}`,{id,title,checked})
+            .then(res=>reload())
+            .catch(err=>console.log(err.message));
+    }
     if(todos.loading===true) return <p>loading</p>
     if(todos.error===false) return <p>{todos.error}</p>
     return ( 
         <div className={styles.container}>
             {todos.todos.map(item=>{
-                return <TodoReducer key={item.id} title={item.title}
-                onChangedCheck={(checkedd)=>dispatch({type:"changeCompletedCondition",payload:{id:item.id,checked:checkedd}})} 
+                return <TodoReducer key={item.id} title={item.title} checked={item.checked}
+                onChangedCheck={(checked)=>todoCompleteCondition(item.id,item.title,checked)} 
                 removeHandler={()=>removeOneTodo(item.id)} />
             })}
         </div>
