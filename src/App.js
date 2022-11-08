@@ -20,6 +20,14 @@ import TodosProvider from "./components/Providers/todosProvider";
 import TodoFormReducer from "./components/TodoFormReducer/TodoFormReducer";
 
 
+import TodosContextProvider from "./components/Providers/todosContextProvider";
+import TodoFormContext from "./components/TodoFormContext/TodoFormContext";
+import TodoTotalContext from "./components/TodoTotalContext/TodoTotalContext";
+import TodoListContext from "./components/TodoListContext/TodoListContext";
+
+
+
+
 
 
 function App() {
@@ -40,13 +48,21 @@ function App() {
     //   <TodoListReduxToolKit />
     // </Provider>
 
-    <TodosProvider>
+    // <TodosProvider>
+    //   <div className="flex justify-between items-center">
+    //    <TodoFormReducer />
+    //    <TodoTotalReducer />
+    //   </div>
+    //   <TodoListReducer />
+    // </TodosProvider>
+
+    <TodosContextProvider>
       <div className="flex justify-between items-center">
-       <TodoFormReducer />
-       <TodoTotalReducer />
+       <TodoFormContext />
+       <TodoTotalContext />
       </div>
-      <TodoListReducer />
-    </TodosProvider>
+      <TodoListContext />
+    </TodosContextProvider>
   )
 }
 

@@ -14,15 +14,12 @@ const reducer=(state=initialState,action)=>{
 
     switch (action.type) {
         case "loading":{
-            console.log(state)
               return  {...state,todos:[],loading:true,error:""};    
         };
         case "success":{
-            console.log(state)
             return  {...state,todos:action.payload,loading:false,error:""};    
       };
         case "error":{
-            console.log(state)
             return  {...state,todos:[],loading:false,error:action.payload};    
   };
         case "changeCompletedCondition":{
@@ -35,11 +32,14 @@ const reducer=(state=initialState,action)=>{
             axios.post(`http://localhost:4000/todos`,action.payload)
             .then(res=>{
                 state.todos.push(res.data);
-                console.log(state.todos)
-                return {...state,todos:state.todos,loading:false,error:""}  
+                console.log(state.todos);
+                return  {...state,todos:state.todos,loading:false,error:""}
             })
-            .catch(err=>console.log(err));
-           return state
+            .catch(err=>{
+                console.log(err.message);
+                return  {...state,todos:[],loading:false,error:err.message}
+            });
+            return state;
         };
         case "removeOneTodo":{
             axios.delete(`http://localhost:4000/todos/${action.payload}`)

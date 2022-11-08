@@ -1,9 +1,9 @@
 import axios from "axios";
 import { useState } from "react";
 import { useTodoActions, useTodos } from "../Providers/todosProvider";
-import styles from './todoFormReducer.module.css';
+import styles from './todoFormContext.module.css';
 
-const TodoFormReducer = () => {
+const TodoFormContext = () => {
     const [inputVal,setInputVal]=useState("");
     const todos=useTodos();
 
@@ -39,4 +39,4 @@ const TodoFormReducer = () => {
      );
 }
  
-export default TodoFormReducer;
+export default TodoFormContext;
