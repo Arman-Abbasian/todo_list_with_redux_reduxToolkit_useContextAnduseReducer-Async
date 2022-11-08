@@ -32,19 +32,17 @@ export const useTodoActions=()=>{
      
         const changeCompletedCondition=(payload)=>{
             axios.put(`http://localhost:4000/todos/${payload.id}`,payload)
-            .then(res=>console.log(res.data))
+            .then(res=>initialLoading())
             .catch(err=>console.log(err.message));
         };
         const  addOneTodo=(payload)=>{
             axios.post(`http://localhost:4000/todos`,payload)
-            .then(res=>{
-            })
-            .catch(err=>{
-            });
+            .then(res=>initialLoading())
+            .catch(err=>console.log(err.message));
         };
         const removeOneTodo=(id)=>{
             axios.delete(`http://localhost:4000/todos/${id}`)
-            .then(res=>console.log(res.data))
+            .then(res=>initialLoading())
             .catch(err=>console.log(err.message));
         };     
         
